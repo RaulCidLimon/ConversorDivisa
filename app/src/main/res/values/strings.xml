@@ -1,0 +1,98 @@
+<resources>
+    <string name="app_name">Currency converter</string>
+    <string name="Zero" translatable="false">0</string>
+    <string name="Error">Error: No text found</string>
+    <string name="Divisa">Select currency</string>
+    <string name="AppInfo">App created by Raúl Cid Limón. 01/10/2020</string>
+    <string name="ApiUsed">API used for currency data: ratesapi.io</string>
+    <string name="AppUpdate">Last update: 01/10/2020</string>
+    <string name="NoInternet">No internet connection</string>
+
+    <string-array name="currrenciesA">
+        <item>EUR</item>
+
+        <item>GBP</item>
+        <item>HKD</item>
+        <item>IDR</item>
+        <item>ILS</item>
+
+        <item>DKK</item>
+        <item>INR</item>
+        <item>CHF</item>
+        <item>MXN</item>
+
+        <item>CZK</item>
+        <item>SGD</item>
+        <item>THB</item>
+        <item>HRK</item>
+
+        <item>MYR</item>
+        <item>NOK</item>
+        <item>CNY</item>
+        <item>BGN</item>
+
+        <item>PHP</item>
+        <item>SEK</item>
+        <item>PLN</item>
+        <item>ZAR</item>
+
+        <item>CAD</item>
+        <item>ISK</item>
+        <item>BRL</item>
+        <item>RON</item>
+
+        <item>NZD</item>
+        <item>TRY</item>
+        <item>RUB</item>
+
+        <item>KRW</item>
+        <item>USD</item>
+        <item>HUF</item>
+        <item>AUD</item>
+    </string-array>
+
+    <string-array name="currrenciesB">
+        <item>EUR</item>
+
+        <item>GBP</item>
+        <item>HKD</item>
+        <item>IDR</item>
+        <item>ILS</item>
+
+        <item>DKK</item>
+        <item>INR</item>
+        <item>CHF</item>
+        <item>MXN</item>
+
+        <item>CZK</item>
+        <item>SGD</item>
+        <item>THB</item>
+        <item>HRK</item>
+
+        <item>MYR</item>
+        <item>NOK</item>
+        <item>CNY</item>
+        <item>BGN</item>
+
+        <item>PHP</item>
+        <item>SEK</item>
+        <item>PLN</item>
+        <item>ZAR</item>
+
+        <item>CAD</item>
+        <item>ISK</item>
+        <item>BRL</item>
+        <item>RON</item>
+
+        <item>NZD</item>
+        <item>TRY</item>
+        <item>RUB</item>
+
+        <item>KRW</item>
+        <item>USD</item>
+        <item>HUF</item>
+        <item>AUD</item>
+    </string-array>
+    <string name="Internet">Connected to internet</string>
+
+</resources>

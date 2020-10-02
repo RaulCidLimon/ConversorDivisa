@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Conversor de divisas</string>
+    <string name="NoInternet">Sin conexión a internet</string>
+    <string name="Divisa">Selecciona una divisa</string>
+    <string name="Error">Error: No se encontró texto</string>
+    <string name="Internet">Conectado a internet</string>
+    <string name="ApiUsed">API usada para los datos de divisas: ratesapi.io</string>
+    <string name="AppInfo">App creada por Raúl Cid Limón. 01/10/2020</string>
+    <string name="AppUpdate">Última actulización: 01/10/2020</string>
+</resources>

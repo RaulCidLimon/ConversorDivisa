@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/negro"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+
+    <RelativeLayout
+        android:id="@+id/rlArriba"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/gradient_primarycolor">
+
+        <ImageButton
+            android:id="@+id/ivInfo"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="12dp"
+            android:background="@color/transparent"
+            android:src="@drawable/ic_help_outline_white_24dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/etDivisaA"
+                android:layout_width="250dp"
+                android:layout_height="50dp"
+                android:layout_marginBottom="6dp"
+                android:background="@drawable/rounded_button"
+                android:fontFamily="@font/proxima"
+                android:hint="@string/Zero"
+                android:inputType="numberDecimal"
+                android:padding="5dp"
+                android:textAlignment="center"
+                android:textColor="@color/negro"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/spinnerA"
+                android:layout_width="250dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/transparent"
+                android:fontFamily="@font/proxima"
+                android:gravity="center"
+                android:hint="@string/Divisa"
+                android:padding="2dp"
+                android:popupBackground="@color/colorPrimaryDark"
+                android:textAlignment="center"
+                android:textColor="@color/blanco"
+                android:textColorHint="@color/blanco"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlAbajo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/gradient_secondarycolor">
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/etDivisaB"
+                android:layout_width="250dp"
+                android:layout_height="50dp"
+                android:layout_marginBottom="6dp"
+                android:background="@drawable/rounded_button"
+                android:fontFamily="@font/proxima"
+                android:hint="@string/Zero"
+                android:inputType="numberDecimal"
+                android:padding="5dp"
+                android:textAlignment="center"
+                android:textColor="@color/negro"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/spinnerB"
+                android:layout_width="250dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/transparent"
+                android:fontFamily="@font/proxima"
+                android:gravity="center"
+                android:hint="@string/Divisa"
+                android:padding="2dp"
+                android:popupBackground="@color/colorSecondaryDark"
+                android:textAlignment="center"
+                android:textColor="@color/blanco"
+                android:textColorHint="@color/blanco"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+
+</LinearLayout>
