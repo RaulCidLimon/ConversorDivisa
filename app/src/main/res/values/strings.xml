@@ -3,10 +3,25 @@
     <string name="Zero" translatable="false">0</string>
     <string name="Error">Error: No text found</string>
     <string name="Divisa">Select currency</string>
+    <string name="NoInternet">No internet connection</string>
+    <string name="Internet">Connected to internet</string>
+
     <string name="AppInfo">App created by Raúl Cid Limón. 01/10/2020</string>
     <string name="ApiUsed">API used for currency data: ratesapi.io</string>
-    <string name="AppUpdate">Last update: 01/10/2020</string>
-    <string name="NoInternet">No internet connection</string>
+    <string name="AppUpdate">Last update: 06/10/2020</string>
+    <string name="changelog">Changelog</string>
+    <string name="changelog_list" translatable="false">
+        01/10/2020:
+        \n - Initial app version
+        \n
+        \n06/10/2020:\n- bug fix
+        \n- Added data update date
+        \n- Added 1 currencyA to X currencyB
+        \n- Added value and currency swap
+        \n- Added change log
+    </string>
+    <string name="swapValue" translatable="false">swap value</string>
+    <string name="goBack" translatable="false">go back</string>
 
     <string-array name="currrenciesA">
         <item>EUR</item>
@@ -93,6 +108,5 @@
         <item>HUF</item>
         <item>AUD</item>
     </string-array>
-    <string name="Internet">Connected to internet</string>
 
 </resources>

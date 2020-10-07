@@ -7,8 +7,6 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 
-import java.lang.reflect.Type;
-
 import gr.net.maroulis.library.EasySplashScreen;
 
 public class SplashScreen extends AppCompatActivity {
@@ -21,7 +19,8 @@ public class SplashScreen extends AppCompatActivity {
                 .withTargetActivity(MainActivity.class)
                 .withSplashTimeOut(3000)
                 .withBackgroundColor(Color.parseColor("#2369C4"))
-                .withBeforeLogoText("Currency converter").withLogo(R.drawable.logo_prueba_pix);
+                .withBeforeLogoText("Conversor divisa")
+                .withLogo(R.drawable.logo_prueba_pix);
 
         Typeface font = Typeface.create("proxima", Typeface.NORMAL);
         easySplashScreen.getBeforeLogoTextView().setTypeface(font);

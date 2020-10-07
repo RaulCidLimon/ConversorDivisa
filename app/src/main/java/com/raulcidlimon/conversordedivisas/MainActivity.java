@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -26,19 +27,29 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ArrayList<CurrencyItems> currencyList;
     CurrencyAdapter currencyAdapter;
+
     ImageButton ivInfo;
-    private EditText etDivisaA;
-    private EditText etDivisaB;
+    Spinner spinnerBase;
+    Spinner spinnerACambiar;
+    ImageButton ibCambiarValores;
+    private TextView tvFecha;
+    private TextView tvOneAToXB;
+    private EditText etDivisaBase;
+    private EditText etDivisaACambiar;
+
     private String divisaBase;
     private String divisaCambiada;
-    Spinner spinnerA;
-    Spinner spinnerB;
+    private ArrayList<CurrencyItems> currencyList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,14 +59,13 @@ public class MainActivity extends AppCompatActivity {
         spinnerModificar();
         actualizadorTexto();
 
-        spinnerA = findViewById(R.id.spinnerA);
-        spinnerB = findViewById(R.id.spinnerB);
-
         currencyAdapter = new CurrencyAdapter(this, currencyList);
-        spinnerA.setAdapter(currencyAdapter);
-        spinnerB.setAdapter(currencyAdapter);
+        spinnerBase = findViewById(R.id.spinnerBase);
+        spinnerBase.setAdapter(currencyAdapter);
+        spinnerACambiar = findViewById(R.id.spinnerACambiar);
+        spinnerACambiar.setAdapter(currencyAdapter);
 
-        spinnerA.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinnerBase.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 CurrencyItems itemSelected = (CurrencyItems) parent.getItemAtPosition(position);
@@ -69,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        spinnerB.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinnerACambiar.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 CurrencyItems itemSelected = (CurrencyItems) parent.getItemAtPosition(position);
@@ -91,6 +101,27 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        ibCambiarValores = findViewById(R.id.ibCambiarValores);
+        ibCambiarValores.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cambiarValores();
+            }
+        });
+    }
+
+    private void cambiarValores() {
+        if (!etDivisaACambiar.getText().toString().equalsIgnoreCase("")) {
+            int spinnerDivisaAitem = spinnerBase.getSelectedItemPosition();
+            int spinnerDivisaBitem = spinnerACambiar.getSelectedItemPosition();
+            etDivisaBase.setText(etDivisaACambiar.getText().toString().
+                    replaceAll(",", ""));
+            spinnerBase.setSelection(spinnerDivisaBitem);
+            spinnerACambiar.setSelection(spinnerDivisaAitem);
+        } else {
+            etDivisaBase.setText("");
+        }
     }
 
     @Override
@@ -136,11 +167,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void actualizadorTexto() {
-        etDivisaA = findViewById(R.id.etDivisaA);
-        etDivisaB = findViewById(R.id.etDivisaB);
+        etDivisaBase = findViewById(R.id.etDivisaBase);
+        etDivisaACambiar = findViewById(R.id.etDivisaACambiar);
+        etDivisaACambiar.setEnabled(false);
 
-        etDivisaB.setEnabled(false);
-        etDivisaA.addTextChangedListener(new TextWatcher() {
+        etDivisaBase.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 Log.d("Main", "e");
@@ -161,8 +192,6 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     if (s.toString().length() == 1 && s.toString().startsWith("0")) {
                         s.clear();
-                    } else if (s.toString().length() == 1 && s.toString().startsWith(".")) {
-                        etDivisaA.setText("0.");
                     }
                 } catch (Exception e) {
                     Log.d("Main", "e");
@@ -172,31 +201,61 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getResultado() {
-        etDivisaA = findViewById(R.id.etDivisaA);
-        etDivisaB = findViewById(R.id.etDivisaB);
+        tvFecha = findViewById(R.id.tvFecha);
+        tvOneAToXB = findViewById(R.id.tvOneAToXB);
+        etDivisaBase = findViewById(R.id.etDivisaBase);
+        etDivisaACambiar = findViewById(R.id.etDivisaACambiar);
 
         if (isNetwork()) {
-            if (etDivisaA != null && !etDivisaA.getText().toString().isEmpty()) {
-                String API = "https://api.ratesapi.io/api/latest?base=" + divisaBase + "&symbols=" + divisaCambiada;
+            if (comprobarEditText(etDivisaBase)) {
+                String apiUrl = "https://api.ratesapi.io/api/latest?base="
+                        + divisaBase + "&symbols=" + divisaCambiada;
 
                 if (divisaBase.equalsIgnoreCase(divisaCambiada)) {
-                    etDivisaB.setText(etDivisaA.getText());
+                    etDivisaACambiar.setText(String.valueOf(
+                            Double.parseDouble(etDivisaBase.getText().toString())));
+                    tvOneAToXB.setText("");
+                    tvOneAToXB.setText("");
 
                 } else {
-                    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, API, null, new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            try {
-                                JSONObject jsonObject = response.getJSONObject("rates");
-                                double valorACambiar = Double.parseDouble(etDivisaA.getText().toString());
-                                double valorFinal = valorACambiar * jsonObject.getDouble(divisaCambiada);
+                    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                            Request.Method.GET, apiUrl, null,
+                            new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    try {
+                                        if (comprobarEditText(etDivisaBase)) {
+                                            JSONObject jsonObject = response.
+                                                    getJSONObject("rates");
+                                            double valorETBase = Double.parseDouble(
+                                                    etDivisaBase.getText().toString());
+                                            double valorFinal = valorETBase *
+                                                    jsonObject.getDouble(divisaCambiada);
 
-                                etDivisaB.setText(String.valueOf(valorFinal));
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }, new Response.ErrorListener() {
+                                            String unoBaseToXACambiar = "1 " + divisaBase
+                                                    + " = " + jsonObject.getDouble(divisaCambiada)
+                                                    + " " + divisaCambiada;
+                                            tvOneAToXB.setText(unoBaseToXACambiar);
+
+                                            etDivisaACambiar.setText(String.valueOf(
+                                                    valorFinal));
+
+                                            String textoFromJson = response.getString("date");
+                                            SimpleDateFormat dateFormatYMD = new SimpleDateFormat(
+                                                    "yyyy-MM-dd", Locale.getDefault());
+
+                                            Date fechaInicial = dateFormatYMD.parse(textoFromJson);
+                                            SimpleDateFormat dateFormatDMY = new SimpleDateFormat(
+                                                    "dd-MM-yyyy", Locale.getDefault());
+
+                                            String fechaFinal = dateFormatDMY.format(fechaInicial);
+                                            tvFecha.setText(fechaFinal);
+                                        }
+                                    } catch (JSONException | ParseException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             error.printStackTrace();
@@ -206,12 +265,13 @@ public class MainActivity extends AppCompatActivity {
                     queue.add(jsonObjectRequest);
                 }
             } else {
-                etDivisaB.setText("");
+                etDivisaACambiar.setText("");
             }
         } else {
-            calculo();
+            calculoSinInternet();
         }
     }
+
 
     private boolean isNetwork() {
         ConnectivityManager connectivityManager
@@ -220,14 +280,23 @@ public class MainActivity extends AppCompatActivity {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-    //TODO
-    private void calculo() {
+    // TODO
+    private void calculoSinInternet() {
         if (!divisaBase.equalsIgnoreCase(divisaCambiada)) {
-            etDivisaB.setText(R.string.NoInternet);
+            etDivisaACambiar.setText(R.string.NoInternet);
 
         } else {
-            etDivisaB.setText(etDivisaA.getText().toString());
+            etDivisaACambiar.setText(etDivisaBase.getText().toString());
         }
+    }
+
+    private boolean comprobarEditText(EditText editText) {
+
+        return editText != null
+                && !editText.getText().toString().isEmpty()
+                && !editText.getText().toString().equalsIgnoreCase("")
+                && !editText.getText().toString().equalsIgnoreCase(".");
+
     }
 
 }
